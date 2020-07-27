@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: caesar;
+  src: url(assets/CAESAR.ttf) format("opentype");
+}
+
+@font-face {
+  font-family: hotpizza;
+  src: url(assets/hotpizza.ttf) format("woff");
+}
+
+* {
+  font-size: 14pt;
+  background-color: #f2c673;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'hotpizza', 'Arial', sans-serif;
+}

@@ -1,47 +1,50 @@
-<form [formGroup]="attendeesForm" (ngSubmit)="onSubmitAttendees()">
-  <p>
-    <button type="button" (click)="addAttendee()">Add</button>
-  </p>
+<article style="display: block; text-align: center">
+  <h2>Attendees:</h2>
+  <form [formGroup]="attendeesForm" (ngSubmit)="onSubmitAttendees()">
+    <p>
+      <button type="button" (click)="addAttendee()">Add</button>
+    </p>
 
-  <div formArrayName="attendeesArray" *ngFor="let attendee of attendeesArray.controls, let i = index">
-    <ng-container [formGroupName]="i">
-      <div>
-        <p>
-          Name:
-          <input placeholder="Group/Person" formControlName="name">
-        </p>
-        <p>Amount:
-          <input type="number" placeholder="Amount" formControlName="number">
-        </p>
-
-        <p>
-          <button type="button" (click)="removeAttendee(i)">Remove</button>
-        </p>
-      </div>
-    </ng-container>
-  </div>
-
-  <p>
-    <button type="submit">Submit</button>
-  </p>
-</form>
-
-
-<form [formGroup]="partyConditionsFormGroup" class="formGroupVertical">
-  <div *ngFor="let key of keysOfPartyConditions">
-    <div class="formGroupHorizontal">
-      {{key | pascalCaseToSpace}}
-      <input type="text" formControlName="{{key}}">
+    <div formArrayName="attendeesArray" *ngFor="let attendee of attendeesArray.controls, let i = index">
+      <ng-container [formGroupName]="i">
+        <div>
+          <span>
+            Name:
+            <input matInput placeholder="Group/Person" formControlName="name">
+            Amount:
+            <input matInput type="number" placeholder="Amount" formControlName="number" [min]="0">
+            <button type="button" (click)="removeAttendee(i)">Remove</button>
+          </span>
+        </div>
+      </ng-container>
     </div>
-  </div>
+  </form>
 
-  <button type="submit" (click)="onCalculate(this.partyConditionsFormGroup)">Calculate</button>
-</form>
-
-<p>Result:</p>
-
-<span>
-  Total Attendees: {{partyResult.TotalAttendees}}
   <br>
+  <hr>
+  <br>
+
+  <form [formGroup]="partyConditionsFormGroup">
+    <div *ngFor="let key of keysOfPartyConditions">
+      <div>
+        {{key | pascalCaseToSpace}}
+        <input type="text" formControlName="{{key}}">
+      </div>
+    </div>
+
+    <button matButton type="submit"  [disabled]="!this.partyConditionsFormGroup.dirty || this.attendeesArray.length == 0" (click)="onCalculate(this.partyConditionsFormGroup)">Calculate</button>
+  </form>
+
+  <br>
+  <hr>
+  <br>
+
+  <h2>Result:</h2>
+  <span class="result">
+  Total Attendees: {{partyResult.TotalAttendees}}
+    <br>
+  Total Amount of Pizzas: {{partyResult.TotalPizzas}}
+    <br>
   Total Price: {{partyResult.TotalCost}} $
 </span>
+</article>

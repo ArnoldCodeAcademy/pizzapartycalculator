@@ -16,7 +16,8 @@ import { PascalCaseToSpacePipe } from './pipes/pascal-case-to-space.pipe';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
