@@ -1,2 +1,2 @@
 # pizzapartycalculator
-Small project usable for recruitment-tests.
+Small Angular2+ project usable for recruitment-tests.
