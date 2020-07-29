@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {ExpensesCalculationService} from "../services/expenses-calculation.service";
 
 interface PartyConditions {
   PizzaSlicesPerPerson: number;
@@ -38,7 +37,7 @@ export class PartyConditionsComponent implements OnInit {
   keysOfPartyConditions = Object.keys(this.partyConditions);
   partyConditionsFormGroup: FormGroup = new FormGroup({})
 
-  constructor(private fb: FormBuilder, private ecs: ExpensesCalculationService) {
+  constructor(private fb: FormBuilder) {
   }
 
   get attendeesArray(): FormArray {
@@ -87,15 +86,13 @@ export class PartyConditionsComponent implements OnInit {
 
 
     this.partyResult.TotalAttendees = this.calculateTotalAttendees() || 0;
-    this.partyResult.TotalCost = this.calculateTotalExpenes(this.partyResult.TotalAttendees,formGroup.getRawValue().PizzaSlicesPerPerson,formGroup.getRawValue().PizzaSlicesPerPizza, formGroup.getRawValue().PricePerPizza)
+    this.partyResult.TotalCost = this.calculateTotalExpenses(this.partyResult.TotalAttendees,formGroup.getRawValue().PizzaSlicesPerPerson,formGroup.getRawValue().PizzaSlicesPerPizza, formGroup.getRawValue().PricePerPizza)
 
     this.partyResult.TotalPizzas = this.partyResult.TotalCost / formGroup.getRawValue().PricePerPizza || 0;
-
-
   }
 
-  calculateTotalExpenes(TotalAttendees: number, PizzaSlicesPerPerson: number, PizzaSlicesPerPizza: number, PricePerPizza: number): number {
-    return this.ecs.calculatePartyExpenses(TotalAttendees,PizzaSlicesPerPerson, PizzaSlicesPerPizza, PricePerPizza);
+  calculateTotalExpenses(TotalAttendees: number, PizzaSlicesPerPerson: number, PizzaSlicesPerPizza: number, PricePerPizza: number): number {
+      return Math.ceil(((TotalAttendees * PizzaSlicesPerPerson) / PizzaSlicesPerPizza )* PricePerPizza / PricePerPizza ) * PricePerPizza;
   }
 
   private calculateTotalAttendees(): number {
